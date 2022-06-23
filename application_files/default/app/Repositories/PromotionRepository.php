@@ -6,6 +6,7 @@ use App\Models\Promotion;
 use App\Models\UserPromotion;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use DateTime;
 use DB;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -112,6 +113,20 @@ class PromotionRepository extends BaseRepository implements Interfaces\Promotion
     {
         try {
             $promo = Promotion::whereCode($code)->firstOrFail();
+
+            $now =  new DateTime(now());
+            $start_date = new DateTime($promo->start_date);
+            $end_date = new DateTime($promo->end_date);
+            $later = $now->diff($start_date)->invert === 0;
+            $notExpired = $now->diff($end_date)->invert === 0;
+
+            if (!$later){
+                throw new ErrorException('You cannot use this promotion yet');
+            }
+            if (!$notExpired){
+                throw new ErrorException('This promotion has expired');
+            }
+
             if ($increment && $promo->quota < 1){
                 throw new ErrorException('The quota of the coupon is not enough');
             }

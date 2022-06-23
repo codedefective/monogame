@@ -15,12 +15,12 @@ const DEFAULT_AUTH_GUARD = "auth:sanctum";
 Route::middleware([DEFAULT_AUTH_GUARD,'ability:user_api'])->prefix('/')->group(function () {
     Route::post('/login', [AuthControllerForUser::class,'login'])->withoutMiddleware([DEFAULT_AUTH_GUARD,'ability:user_api']);
     Route::get('/user', [UserController::class,'user']);
-    Route::get('/assign-promotion', [PromotionController::class,'assignToUser']);
+    Route::post('/assign-promotion', [PromotionController::class,'assignToUser']);
     Route::get('/balance', [UserController::class,'balance']);
 });
 
 Route::middleware([DEFAULT_AUTH_GUARD,'ability:admin_api'])->prefix('/backoffice')->group(function () {
-    Route::post('/login', [AuthControllerForBackoffice::class, 'login'])->withoutMiddleware('DEFAULT_AUTH_GUARD');
+    Route::post('/login', [AuthControllerForBackoffice::class, 'login'])->withoutMiddleware([DEFAULT_AUTH_GUARD,'ability:admin_api']);
     Route::get('/user', [AdministratorController::class, 'user']);
     Route::post('/transaction/deposit', [PlayerController::class, 'deposit']);
     Route::post('/transaction/withdraw', [PlayerController::class, 'withdraw']);

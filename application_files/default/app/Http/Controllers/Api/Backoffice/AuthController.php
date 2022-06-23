@@ -26,7 +26,7 @@ class AuthController extends Controller
                 'password' => ['required'],
             ]);
 
-            $auth = Auth::guard('api_admin');
+            $auth = Auth::guard('api');
 
             if ($auth->attempt($credentials)){
                 /** @var User $user */

@@ -1,0 +1,73 @@
+version: "3"
+
+services:
+  nginx_php:
+    privileged: true
+    hostname: nginx_php
+    container_name: nginx_php
+    build:
+      context: .
+    command:
+      - /bin/bash
+      - -c
+      - |
+        sh ./init.sh
+    platform: "linux/x86_64"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8001:8001"
+    environment:
+      APPLICATION_ENV: development
+      APPLICATION_DIRECTORY: /var/www/html
+      HISTFILE: /root/.bash_history/.bash_history
+    volumes:
+      - ./cnf/bash/.bash_history:/root/.bash_history
+      - ./cnf/init.sh:/init.sh
+      - ./cnf/supervisord.conf:/supervisord.conf
+      - ./cnf/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./cnf/nginx/vhosts:/etc/nginx/conf.d/
+      - ./cnf/php/www.conf:/etc/php-fpm.d/www.conf
+      - ./cnf/php/php-development.ini:/etc/php.d/php-development.ini
+      - ./cnf/php/xdebug-profiler.ini:/etc/php.d/xdebug-profiler.ini
+      - ./cnf/php/xdebug-remote.ini:/etc/php.d/xdebug-remote.ini
+      - ./cnf/bash/crontab:/etc/crontab
+      - ./application_files/default:/var/www/html
+      - ./application_files/log/nginx:/var/log/nginx
+      - ./application_files/log/php-fpm:/var/log/php-fpm
+      - ./application_files/log/xdebug:/var/log/xdebug
+    links:
+      - mysql
+      - redis
+    depends_on:
+      - redis
+      - mysql
+    tty: true
+
+  mysql:
+    image: mysql:8.0.23
+    platform: "linux/x86_64"
+    container_name: mysql
+    hostname: mysql
+    ports:
+      - "55008:3306"
+    environment:
+      MYSQL_DATABASE: "EaWeb"
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - ./cnf/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./cnf/mysql/import_export:/mysql_imports
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:6.2.6
+    platform: "linux/x86_64"
+    container_name: redis
+    command:
+      redis-server /etc/redis/redis.conf
+    volumes:
+      - ./cnf/redis/redis.conf:/etc/redis/redis.conf
+
+volumes:
+  mysql_data: {}
