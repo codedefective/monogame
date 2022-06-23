@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'player_id' => $id,
             'currency' => 'EUR',
             'wallet_type' => 1,
-            'host' => 'http://monowallet.erdemakbulut.com.tr/api/v3',
+            'host' => 'http://monogame.test/api/v3',
         ]);
 
         User::factory()->count(5)->create();
