@@ -117,10 +117,10 @@ class PromotionRepository extends BaseRepository implements Interfaces\Promotion
             $now =  new DateTime(now());
             $start_date = new DateTime($promo->start_date);
             $end_date = new DateTime($promo->end_date);
-            $later = $now->diff($start_date)->invert === 0;
+            $notYet = $now->diff($start_date)->invert === 0;
             $notExpired = $now->diff($end_date)->invert === 0;
 
-            if (!$later){
+            if ($notYet){
                 throw new ErrorException('You cannot use this promotion yet');
             }
             if (!$notExpired){
