@@ -27,6 +27,16 @@ It is a simple game and wallet application
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Gaming
+
+- First of all, you must access the project via the browser and log in with the player account.
+- Press the "Play Now" Button when you see the T-Rex game on the homepage
+- You will come across two selection tools, the interest is for betting, the second is the maximum distance you aim for.
+- After selecting these options, press the space key to start the game. The bet is made when the game starts.
+- If you reach and pass your target distance, it offers you a win. The farther you go, the more win rate you get.
+- If you do not reach your target distance, you cannot get your bet back.
+
+  ### Have Fun :)
 
 ## License
 
