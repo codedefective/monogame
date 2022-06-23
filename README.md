@@ -9,7 +9,7 @@ It is a simple game and wallet application
 - cd /var/www/html
 - cp .env.example .env
 - composer install
-- ph artisan key:generate
+- php artisan key:generate
 - php artisan migrate --seed
 - enter [localhost](http://127.0.0.1) or add [http://monogame.test](http://monogame.test) to hosts file then enter domain;
 
