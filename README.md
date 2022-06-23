@@ -40,6 +40,13 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
   ### Have Fun :)
 
+## Example User Information
+
+- Player
+  - behzat.php@gmail.com 123456
+- Administrator
+  - admin@admin.com 123456
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
